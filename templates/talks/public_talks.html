@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans 'Talks' %}: {{ profile.name }}{% endblock %}
+{% block main %}
+<ul>
+{% for talk in talk_list %}
+<li>
+	{% if talk.abstract_pdf %}
+	<a href="{{ talk.abstract_pdf.url }}" target="_blank">{{ talk.title }}</a>
+	{% else %}
+	{{ talk.title }}
+	{% endif %}
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

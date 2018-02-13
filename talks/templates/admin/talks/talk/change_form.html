@@ -1,0 +1,23 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block object-tools-items %}
+<li>
+<select class="addlist" style="width:100px;">
+    <option value="">Select ...</option>
+    <optgroup label="{% trans 'Short Abstract' %}">
+        {% if original and original.pending %}
+        <option value="short-abstract/accept/">{% trans 'Accept' %} ...</option>
+        <option value="short-abstract/reject/">{% trans 'Reject' %} ...</option>
+        {% endif %}
+    </optgroup>
+    <optgroup label="{% trans 'AIP Paper' %}">
+        {% if original and original.aippaper_pending %}
+        <option value="aippaper/accept/">{% trans 'Accept' %} ...</option>
+        <option value="aippaper/reject/">{% trans 'Reject' %} ...</option>
+        {% endif %}
+    </optgroup>
+</select>
+</li>
+{{ block.super }}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n admin_urls %}
+
+{% block stylesheets %}
+{{ block.super }}
+<style type="text/css">
+	#id_recipients, #id_subject{
+		width: 692px;
+	}
+</style>
+{% endblock %}
+{% block footer %}
+{{ block.super }}
+{{ form.media.js }}
+<script type="text/javascript">
+jQuery(function($) {
+	$('#id_recipients').chosen({
+	    create_option: true,
+	    // persistent_create_option decides if you can add any term, even if part
+	    // of the term is also found, or only unique, not overlapping terms
+	    persistent_create_option: true,
+	    // with the skip_no_results option you can disable the 'No results match..' 
+	    // message, which is somewhat redundant when option adding is enabled
+	    skip_no_results: true,
+	    create_option_text: 'Create category'
+	  });
+});
+</script>
+{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../../../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="../../../">{{ app_label|capfirst }}</a> &rsaquo;
+     <a href="../../">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo;
+     <a href="../">{{ object|truncatewords:"18" }}</a> &rsaquo;
+     {% trans 'Delete' %}
+</div>
+{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+	{{ title }}
+    
+    <form action="" method="post">
+    	{% csrf_token %}
+    	{% include 'admin/custom_form.html' %}
+        <div class="submit-row">
+            <p class="cancellink-box"><a href="{% url 'admin:index' %}" class="cancellink">{% trans "Cancel" %}</a></p>
+            <input type="hidden" name="post" value="yes" />
+            <input type="submit" value="{% trans 'Send' %}" class="default" />
+        </div>
+    </form>
+
+{% endblock %}

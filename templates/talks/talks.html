@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans 'Talks' %}{% endblock %}
+{% block main %}
+<div style="margin-bottom:10px;">
+	<span class="label label-info">{% trans 'Under Consideration' %}</span>
+	<span class="label label-success">{% trans 'Accepted' %}</span>
+	<span class="label label-danger">{% trans 'Rejected' %}</span>
+</div>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>{% trans 'Title' %}</th>
+			<th>{% trans 'Authors' %}</th>
+			<th>{% trans 'Status' %}</th>
+			<th>{% trans 'Actions' %}</th>
+		</tr>
+	</thead>
+	<tbody>
+    {% for talk in talk_list %}
+    <tr class="{{ talk.css_class }}">
+    	<td>{{ talk.title }}</td>
+    	<td>{{ talk.get_authors_display }}</td>
+    	<td>
+    		{% trans 'Short Abstract' %}: <span class="label {{ talk.abstract_status_class }}">{{ talk.get_status_display }}</span>
+    		<br />{% trans 'AIP Paper' %}: <span class="label {{ talk.aippaper_status_class }}">{{ talk.get_aippaper_status_display }}</span>
+    	</td>
+    	<td>
+    		<div class="btn-group">
+			  <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">
+			    {% trans 'Actions' %}
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+			    {% if talk.pending %}
+		    		<li><a href="{% url 'talk_edit' talk.pk %}">{% trans 'Edit' %}</a></li>
+		    		<li><a href="{% url 'talk_delete' talk.pk %}">{% trans 'Delete' %}</a></li>
+		    	{% endif %}
+		    	{% if can_submit_aippaper %}
+		    	{% if talk.aippaper_empty or talk.aippaper_pending %}
+		    		<li><a href="{% url 'talk_submit_aippaper' talk.pk %}">{% trans 'Submit AIP-Paper' %}</a></li>
+		    	{% endif %}
+		    	{% endif %}
+			  </ul>
+			</div>
+    	</td>
+    </tr>
+    {% empty %}
+    <p>No talks accepted yet.</p>
+    {% endfor %}
+    </tbody>
+</table>
+{% if is_paginated %}
+<section class="wafer wafer-pagination">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li><a href="{% url 'wafer_users_talks_page' page=page_obj.previous_page_number %}">&laquo;</a></li>
+        {% else %}
+        <li class="disabled"><a href="#">&laquo;</a></li>
+        {% endif %}
+        {% for page in paginator.page_range %}
+        <li><a href="{% url 'wafer_users_talks_page' page=page %}">{{ page }}</a></li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li><a href="{% url 'wafer_users_talks_page' page=page_obj.next_page_number %}">&raquo;</a></li>
+        {% else %}
+        <li class="disabled"><a href="#">&raquo;</a></li>
+        {% endif %}
+    </ul>
+</section>
+{% endif %}
+{% endblock %}

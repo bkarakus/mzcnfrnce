@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags i18n static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static "chosen/chosen.min.css" %}">
+{% endblock %}
+{% block extra_js %}
+<script src="{% static "chosen/chosen.jquery.min.js" %}"></script>
+<script type="text/javascript">
+jQuery(function($) {
+	$('#authors select').chosen().on('change', function (e) {
+	    id = $(this).val();
+	    var name_field = $(this).closest('tr').find('.textinput');
+	    var email_field = $(this).closest('tr').find('.emailinput');
+	    if (id){
+		    $.ajax({
+	            type: "GET",
+	            url: "/talks/get-profile/" + id,
+	            dataType: "json",
+	            success: function(data) {
+	            	name_field.val(data.name);
+	            	email_field.val(data.email);
+	            }
+	        });
+	    }
+	});
+});
+</script>
+{% endblock %}
+{% block title %}
+{% if can_edit %}
+{% trans "Edit Talk" %}
+{% else %}
+{% trans "Edit Talk" %}
+{% endif %}
+{% endblock %}
+{% block main %}
+<section class="wafer wafer-talk-edit">
+{% if not can_edit and not can_submit %}
+{% blocktrans %}
+<em>Talk submission is closed or you haven't edit permission this talk.</em>
+{% endblocktrans %}
+{% else %}
+<form action="." method="post" class="form" enctype="multipart/form-data">{% csrf_token %}
+	{{ form.media }}
+	{% crispy form %}
+	<h3 style='border-bottom:1px dotted #0d0d0d;'>{% trans 'Authors' %}</h3>
+	<div id="authors">
+	{% crispy authors helper %}
+	</div>
+</form>
+{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,11 @@
+*.pyc
+*.pyo
+*.db
+.DS_Store
+.coverage
+.project
+.pydevproject
+.settings/*
+local_settings.py
+/site_media
+

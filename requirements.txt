@@ -1,0 +1,6 @@
+Mezzanine==4.0.1
+django-countries
+django-crispy-forms
+MySQL-python
+python-magic
+django-import-export

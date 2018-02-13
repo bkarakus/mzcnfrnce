@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title_base %}{% endblock %}
+{% block main %}
+<section class="wafer wafer-talk">
+<h1>
+    {{ object.title }}
+</h1>
+<div>
+    <p>
+    {% blocktrans count counter=object.authors.count %}
+    Speaker:
+    {% plural %}
+    Speakers:
+    {% endblocktrans %}
+    {{ object.get_authors_display }}
+    </p>
+    <p>
+    Type:
+    {{ object.talk_type.name|default:'Talk' }}
+    </p>
+</div>
+<div>
+    <p>
+    {% trans 'Status:' %}
+    {% if object.pending %}
+    <span class="label label-warning">{% trans 'Under consideration' %}</span>
+    {% elif object.accepted %}
+    <span class="label label-success">{% trans 'Accepted' %}</span>
+    {% else %}
+    <span class="label label-danger">{% trans 'Not accepted' %}</span>
+    {% endif %}
+    </p>
+</div>
+<h3>Files</h3>
+<div class="well" id="urls">
+   {% if object.abstract_pdf %}
+   <p><a href="{{ object.abstract_pdf.url }}" target="_blank">{% trans 'Short Abstract' %}</a></p>
+   {% endif %}
+   {% if object.aippaper_pdf %}
+   <p><a href="{{ object.aippaper_pdf.url }}" target="_blank">{% trans 'AIP Paper' %}</a></p>
+   {% endif %}
+</div>
+</section>
+{% endblock %}

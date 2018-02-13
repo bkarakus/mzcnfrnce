@@ -1,0 +1,18 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags %}
+
+{% block main %}{{ block.super }}
+
+{% editable page.profilespage.content %}
+{{ page.profilespage.content|richtext_filters|safe }}
+{% endeditable %}
+
+{% with page.profilespage.profile_list as profiles %}
+<ul>
+{% for profile in profiles %}
+    <li>{{ profile.name }}</li>
+{% endfor %}
+</ul>
+{% endwith %}
+{% endblock %}

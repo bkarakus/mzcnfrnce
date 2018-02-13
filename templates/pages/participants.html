@@ -1,0 +1,31 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags %}
+
+{% block main %}{{ block.super }}
+
+{% editable page.profilespage.content %}
+{{ page.profilespage.content|richtext_filters|safe }}
+{% endeditable %}
+
+{% with page.profilespage.profile_list as current_page %}
+<table class="table table-striped table-bordered uppercase">
+<tr>
+	<th></th>
+	<th>Name</th>
+	<th>Affiliation</th>
+</tr>
+{% for profile in current_page %}
+    <tr>
+    	<td>{{ current_page.start_index|add:forloop.counter0}}</td>
+    	<td>{{ profile.name }}</td>
+    	<td>{{ profile.university }}, {{ profile.get_country_display }}</td>
+    </tr>
+{% endfor %}
+</table>
+<p class="">(*): If explanation is incorrect, please contact us</p>
+{% with 'page' as page_var %}
+{% include 'includes/pagination.html' %}
+{% endwith %}
+{% endwith %}
+{% endblock %}

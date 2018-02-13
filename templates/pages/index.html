@@ -1,0 +1,17 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags %}
+
+{% block title_base %}{% endblock %}
+
+{% block slider %}
+{% include "includes/carousel.html" %}
+{% endblock %}
+
+{% block main %}{{ block.super }}
+
+{% editable page.homepage.content %}
+{{ page.homepage.content|richtext_filters|safe }}
+{% endeditable %}
+
+{% endblock %}
