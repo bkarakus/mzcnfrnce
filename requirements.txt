@@ -4,3 +4,4 @@ django-crispy-forms
 MySQL-python
 python-magic
 django-import-export
+django-modeltranslation

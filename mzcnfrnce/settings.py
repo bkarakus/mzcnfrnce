@@ -214,6 +214,13 @@ INSTALLED_APPS = (
     "dbemail",
 )
 
+MIGRATION_MODULES = {
+    "pages": "db_migrations.pages",
+    "forms": "db_migrations.forms",
+    "galleries": "db_migrations.galleries",
+    "conf": "db_migrations.conf",
+}
+
 # List of processors used by RequestContext to populate the context.
 # Each one should be a callable that takes the request object as its
 # only parameter and returns a dictionary to add to the context.
