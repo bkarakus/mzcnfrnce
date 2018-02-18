@@ -13,10 +13,11 @@
 		{% for image in images %}
 		<div class="item {% if forloop.first %}active{% endif %}">
 			<img class="img-responsive" src="{{ MEDIA_URL }}{% thumbnail image.image 800 300 %}" alt="{{ image.description }}">
+			<!--  
 			<div class="carousel-caption fadeInUpBig-animated">
                    <h3 class="no-margin text-white">{{ image.caption }}</h3>
                    <p class="text-light-grey hidden-xs no-margin">{{ image.description }}</p>
-               </div>
+               </div>-->
 		</div>
 		{% endfor %}
 	</div>
