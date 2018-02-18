@@ -11,7 +11,7 @@ import mezzanine.core.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pages', '0003_auto_20150527_1555'),
+        ('pages', '0004_auto_20180213_1923'),
         ('sites', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
@@ -41,6 +41,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('page_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='pages.Page')),
                 ('content', mezzanine.core.fields.RichTextField(verbose_name='Content')),
+                ('content_en', mezzanine.core.fields.RichTextField(null=True, verbose_name='Content')),
+                ('content_tr', mezzanine.core.fields.RichTextField(null=True, verbose_name='Content')),
                 ('profile_type', models.CharField(max_length=1, verbose_name='Profile Type', choices=[(b'S', 'Speakers'), (b'P', 'Participants')])),
                 ('per_page', models.SmallIntegerField(default=25, help_text='Number of profiles shown in the page.', verbose_name='Profiles per page')),
             ],
@@ -54,6 +56,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('aciklama', models.CharField(unique=True, max_length=50, verbose_name='A\xe7\u0131klama')),
+                ('aciklama_en', models.CharField(max_length=50, unique=True, null=True, verbose_name='A\xe7\u0131klama')),
+                ('aciklama_tr', models.CharField(max_length=50, unique=True, null=True, verbose_name='A\xe7\u0131klama')),
                 ('site', models.ForeignKey(editable=False, to='sites.Site')),
             ],
             options={

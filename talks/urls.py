@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
 from talks.views import (
-    TalkCreate, TalkDelete, TalkUpdate, TalkView, UsersTalks, AIPPaperSubmit, get_profile, PublicUserTalks)
+    TalkCreate, TalkDelete, TalkUpdate, TalkView, UsersTalks, FullPaperSubmit, get_profile, PublicUserTalks)
 
 urlpatterns = patterns(
     '',
@@ -14,8 +14,8 @@ urlpatterns = patterns(
         name='talk_edit'),
     url(r'^(?P<pk>\d+)/delete/$', TalkDelete.as_view(),
         name='talk_delete'),
-    url(r'^(?P<pk>\d+)/aippaper/$', AIPPaperSubmit.as_view(),
-        name='talk_submit_aippaper'),
+    url(r'^(?P<pk>\d+)/fullpaper/$', FullPaperSubmit.as_view(),
+        name='talk_submit_fullpaper'),
     url(r'^get-profile/(?P<profile_id>\d+)/$', get_profile,
         name='get_profile'),
     url(r'^accepted/(?P<username>[\w.@+-]+)/$', PublicUserTalks.as_view(), name='public_usertalks'),

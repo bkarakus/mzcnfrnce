@@ -117,7 +117,7 @@
 		<div class="col-md-3 right">
 			<div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" %}</div>
 		    {% nevercache %}
-		    {#% include "includes/language_selector.html" %#}
+		    {% include "includes/language_selector.html" %}
 		    {% include "includes/user_panel.html" %}
 		    {% endnevercache %}
 		    {% ifinstalled mezzanine.twitter %}

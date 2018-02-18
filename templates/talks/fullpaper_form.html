@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags i18n %}
 {% block title %}
-{% trans "AIP Paper Submission" %}
+{% trans "Full Paper Submission" %}
 {% endblock %}
 {% block main %}
 <section class="wafer wafer-talk-edit">
 {% if not can_edit %}
 {% blocktrans %}
-<em>AIPPaper submission is closed</em>
+<em>Full-Paper submission is closed</em>
 {% endblocktrans %}
 {% else %}
 <form action="." method="post" class="form" enctype="multipart/form-data">

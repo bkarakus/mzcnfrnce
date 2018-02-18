@@ -37,8 +37,8 @@
    {% if object.abstract_pdf %}
    <p><a href="{{ object.abstract_pdf.url }}" target="_blank">{% trans 'Short Abstract' %}</a></p>
    {% endif %}
-   {% if object.aippaper_pdf %}
-   <p><a href="{{ object.aippaper_pdf.url }}" target="_blank">{% trans 'AIP Paper' %}</a></p>
+   {% if object.fullpaper_pdf %}
+   <p><a href="{{ object.fullpaper_pdf.url }}" target="_blank">{% trans 'Full Paper' %}</a></p>
    {% endif %}
 </div>
 </section>

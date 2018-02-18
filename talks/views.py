@@ -16,7 +16,7 @@ from mezzanine.conf import settings
 from profiles.models import Profile, User
 
 from talks.models import Talk, Author, ACCEPTED, PENDING
-from talks.forms import TalkForm, AuthorFormSet, AuthorFormSetHelper, AIPPaperForm
+from talks.forms import TalkForm, AuthorFormSet, AuthorFormSetHelper, FullPaperForm
 
 from django.http import Http404, HttpResponse
 
@@ -68,7 +68,7 @@ class UsersTalks(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super(UsersTalks, self).get_context_data(**kwargs)
-        context['can_submit_aippaper'] = getattr(settings, 'TALKS_AIPPAPER_SUBMIT_OPEN', False)
+        context['can_submit_fullpaper'] = getattr(settings, 'TALKS_FULLPAPER_SUBMIT_OPEN', False)
         return context
     
 class PublicUserTalks(ListView):
@@ -202,19 +202,19 @@ class TalkUpdate(LoginRequiredMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         return UpdateView.post(self, request, *args, **kwargs)
     
-class AIPPaperSubmit(LoginRequiredMixin, UpdateView):
+class FullPaperSubmit(LoginRequiredMixin, UpdateView):
     model = Talk
-    form_class = AIPPaperForm
-    template_name = 'talks/aippaper_form.html'
+    form_class = FullPaperForm
+    template_name = 'talks/fullpaper_form.html'
     
     def form_valid(self, form):
-        form.instance.aippaper_status = PENDING
-        return super(AIPPaperSubmit, self).form_valid(form)
+        form.instance.fullpaper_status = PENDING
+        return super(FullPaperSubmit, self).form_valid(form)
     
     def get_context_data(self, **kwargs):
-        context = super(AIPPaperSubmit, self).get_context_data(**kwargs)
-        context['can_edit'] = self.object.can_edit_aippaper(self.request.user)
-        context['can_submit_aippaper'] = getattr(settings, 'TALKS_AIPPAPER_SUBMIT_OPEN', False)
+        context = super(FullPaperSubmit, self).get_context_data(**kwargs)
+        context['can_edit'] = self.object.can_edit_fullpaper(self.request.user)
+        context['can_submit_fullpaper'] = getattr(settings, 'TALKS_FULLPAPER_SUBMIT_OPEN', False)
         return context
 
 class TalkDelete(LoginRequiredMixin, DeleteView):

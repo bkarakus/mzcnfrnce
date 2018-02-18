@@ -41,9 +41,9 @@ class Migration(migrations.Migration):
                 ('abstract_pdf', models.FileField(validators=[talks.models.validate_pdf_file], upload_to=utils.files.get_abstracts_path, max_length=255, blank=True, null=True, verbose_name='File (PDF)')),
                 ('notes', models.TextField(help_text='Any notes for the conference organisers?', null=True, blank=True)),
                 ('status', models.CharField(default=b'P', max_length=1, choices=[(b'A', b'Accepted'), (b'R', b'Not Accepted'), (b'P', b'Under Consideration'), (b'E', b'Not Submitted')])),
-                ('aippaper', models.FileField(validators=[talks.models.validate_zip_file], upload_to=utils.files.get_aippapers_path, max_length=255, blank=True, help_text=b'Only .zip or .rar files', null=True, verbose_name='AIP Paper')),
-                ('aippaper_pdf', models.FileField(validators=[talks.models.validate_pdf_file], upload_to=utils.files.get_aippapers_path, max_length=255, blank=True, null=True, verbose_name='AIP Paper (PDF)')),
-                ('aippaper_status', models.CharField(default=b'E', max_length=1, choices=[(b'A', b'Accepted'), (b'R', b'Not Accepted'), (b'P', b'Under Consideration'), (b'E', b'Not Submitted')])),
+                ('fullpaper', models.FileField(validators=[talks.models.validate_pdf_file], upload_to=utils.files.get_fullpapers_path, max_length=255, blank=True, help_text=b'Only .pdf files', null=True, verbose_name='Full Paper')),
+                ('fullpaper_pdf', models.FileField(validators=[talks.models.validate_pdf_file], upload_to=utils.files.get_fullpapers_path, max_length=255, blank=True, null=True, verbose_name='Full Paper (PDF)')),
+                ('fullpaper_status', models.CharField(default=b'E', max_length=1, choices=[(b'A', b'Accepted'), (b'R', b'Not Accepted'), (b'P', b'Under Consideration'), (b'E', b'Not Submitted')])),
                 ('site', models.ForeignKey(editable=False, to='sites.Site')),
             ],
             options={

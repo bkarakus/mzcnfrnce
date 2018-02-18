@@ -11,10 +11,10 @@
         <option value="short-abstract/reject/">{% trans 'Reject' %} ...</option>
         {% endif %}
     </optgroup>
-    <optgroup label="{% trans 'AIP Paper' %}">
-        {% if original and original.aippaper_pending %}
-        <option value="aippaper/accept/">{% trans 'Accept' %} ...</option>
-        <option value="aippaper/reject/">{% trans 'Reject' %} ...</option>
+    <optgroup label="{% trans 'Full Paper' %}">
+        {% if original and original.fullpaper_pending %}
+        <option value="fullpaper/accept/">{% trans 'Accept' %} ...</option>
+        <option value="fullpaper/reject/">{% trans 'Reject' %} ...</option>
         {% endif %}
     </optgroup>
 </select>

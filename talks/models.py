@@ -12,7 +12,7 @@ from mezzanine.core.models import SiteRelated, Ownable, Orderable
 from mezzanine.conf import settings as mezzanine_settings
 
 from utils.files import get_abstracts_path
-from utils.files import get_aippapers_path
+from utils.files import get_fullpapers_path
 
 from dbemail.models import EmailTemplate
 from profiles.models import Profile
@@ -114,10 +114,10 @@ class Talk(SiteRelated, Ownable):
     status = models.CharField(max_length=1, choices=TALK_STATUS,
                               default=PENDING)
     
-    aippaper = models.FileField(_('AIP Paper'), null=True, blank=True, max_length=255, upload_to=get_aippapers_path, validators=[validate_zip_file],
-                                help_text='Only .zip or .rar files')
-    aippaper_pdf = models.FileField(_('AIP Paper (PDF)'), max_length=255, blank=True, null=True, upload_to=get_aippapers_path,validators=[validate_pdf_file])
-    aippaper_status = models.CharField(max_length=1, choices=TALK_STATUS,
+    fullpaper = models.FileField(_('Full Paper'), null=True, blank=True, max_length=255, upload_to=get_fullpapers_path, validators=[validate_pdf_file],
+                                help_text='Only .pdf files')
+    fullpaper_pdf = models.FileField(_('Full Paper (PDF)'), max_length=255, blank=True, null=True, upload_to=get_fullpapers_path,validators=[validate_pdf_file])
+    fullpaper_status = models.CharField(max_length=1, choices=TALK_STATUS,
                               default=EMPTY)
 
     def __str__(self):
@@ -175,10 +175,10 @@ class Talk(SiteRelated, Ownable):
     rejected = property(fget=lambda x: x.status == REJECTED)
     
     # Helpful properties for the templates
-    aippaper_accepted = property(fget=lambda x: x.aippaper_status == ACCEPTED)
-    aippaper_pending = property(fget=lambda x: x.aippaper_status == PENDING)
-    aippaper_rejected = property(fget=lambda x: x.aippaper_status == REJECTED)
-    aippaper_empty = property(fget=lambda x: x.aippaper_status == EMPTY)
+    fullpaper_accepted = property(fget=lambda x: x.fullpaper_status == ACCEPTED)
+    fullpaper_pending = property(fget=lambda x: x.fullpaper_status == PENDING)
+    fullpaper_rejected = property(fget=lambda x: x.fullpaper_status == REJECTED)
+    fullpaper_empty = property(fget=lambda x: x.fullpaper_status == EMPTY)
 
     def can_view(self, user):
         if user.has_perm('talks.view_all_talks'):
@@ -201,13 +201,14 @@ class Talk(SiteRelated, Ownable):
                 return True
         return False
     
-    def can_edit_aippaper(self, user):
-        can_submit_aippaper = getattr(settings, 'TALKS_AIPPAPER_SUBMIT_OPEN', False)
-        if not can_submit_aippaper:
+    def can_edit_fullpaper(self, user):
+        can_submit_fullpaper = getattr(mezzanine_settings, 'TALKS_FULLPAPER_SUBMIT_OPEN', False)
+        print can_submit_fullpaper
+        if not can_submit_fullpaper:
             return False
         if user.has_perm('talks.change_talk'):
             return True
-        if self.aippaper_empty or self.aippaper_pending:
+        if self.fullpaper_empty or self.fullpaper_pending:
             if self.user.pk == user.pk:
                 return True
         return False
@@ -220,14 +221,14 @@ class Talk(SiteRelated, Ownable):
         elif self.rejected:
             return 'label-danger'
         
-    def aippaper_status_class(self):
-        if self.aippaper_pending:
+    def fullpaper_status_class(self):
+        if self.fullpaper_pending:
             return 'label-info'
-        elif self.aippaper_accepted:
+        elif self.fullpaper_accepted:
             return 'label-success'
-        elif self.aippaper_rejected:
+        elif self.fullpaper_rejected:
             return 'label-danger'
-        elif self.aippaper_empty:
+        elif self.fullpaper_empty:
             return 'label-warning'
         
     def abstract_accept_or_reject(self, status):
@@ -245,23 +246,23 @@ class Talk(SiteRelated, Ownable):
             return EmailTemplate.send_template(template_slug, to_address, context,)
         return True
     
-    def aippaper_accept_or_reject(self, status):
+    def fullpaper_accept_or_reject(self, status):
         if status == 'accept':
-            self.aippaper_status = ACCEPTED
+            self.fullpaper_status = ACCEPTED
         elif status == 'reject':
-            self.aippaper_status = REJECTED
+            self.fullpaper_status = REJECTED
             
         self.save()
         
         if mezzanine_settings.TALKS_SEND_ACCEPT_REJECT_MAIL:
-            template_slug = 'aippaper-%s' % status
+            template_slug = 'fullpaper-%s' % status
             to_address = self.user.email
             context = {'user': self.user, 'talk': self,}
             return EmailTemplate.send_template(template_slug, to_address, context,)
         return True
 '''
 @python_2_unicode_compatible
-class AIPPaper(SiteRelated, Ownable):
+class fullpaper(SiteRelated, Ownable):
     TALK_STATUS = (
         (ACCEPTED, 'Accepted'),
         (REJECTED, 'Not Accepted'),
@@ -270,9 +271,9 @@ class AIPPaper(SiteRelated, Ownable):
     
     talk = models.ForeignKey(Talk)
 
-    aippaper = models.FileField(_('File'), max_length=255, upload_to=get_abstracts_path, validators=[validate_zip_file],
+    fullpaper = models.FileField(_('File'), max_length=255, upload_to=get_abstracts_path, validators=[validate_zip_file],
                                 help_text='Only .zip or .rar files')
-    aippaper_pdf = models.FileField(_('File (PDF)'), max_length=255, blank=True, null=True, upload_to=get_abstracts_path,validators=[validate_pdf_file])
+    fullpaper_pdf = models.FileField(_('File (PDF)'), max_length=255, blank=True, null=True, upload_to=get_abstracts_path,validators=[validate_pdf_file])
     status = models.CharField(max_length=1, choices=TALK_STATUS,
                               default=PENDING)
 
@@ -280,7 +281,7 @@ class AIPPaper(SiteRelated, Ownable):
         return u'%s: %s' % (self.user, self.title)
 
     def get_absolute_url(self):
-        return reverse('aippaper_detail', args=(self.pk,))
+        return reverse('fullpaper_detail', args=(self.pk,))
     
     accepted = property(fget=lambda x: x.status == ACCEPTED)
     pending = property(fget=lambda x: x.status == PENDING)

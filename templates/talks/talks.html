@@ -23,7 +23,7 @@
     	<td>{{ talk.get_authors_display }}</td>
     	<td>
     		{% trans 'Short Abstract' %}: <span class="label {{ talk.abstract_status_class }}">{{ talk.get_status_display }}</span>
-    		<br />{% trans 'AIP Paper' %}: <span class="label {{ talk.aippaper_status_class }}">{{ talk.get_aippaper_status_display }}</span>
+    		<br />{% trans 'Full Paper' %}: <span class="label {{ talk.fullpaper_status_class }}">{{ talk.get_fullpaper_status_display }}</span>
     	</td>
     	<td>
     		<div class="btn-group">
@@ -36,9 +36,9 @@
 		    		<li><a href="{% url 'talk_edit' talk.pk %}">{% trans 'Edit' %}</a></li>
 		    		<li><a href="{% url 'talk_delete' talk.pk %}">{% trans 'Delete' %}</a></li>
 		    	{% endif %}
-		    	{% if can_submit_aippaper %}
-		    	{% if talk.aippaper_empty or talk.aippaper_pending %}
-		    		<li><a href="{% url 'talk_submit_aippaper' talk.pk %}">{% trans 'Submit AIP-Paper' %}</a></li>
+		    	{% if can_submit_fullpaper %}
+		    	{% if talk.fullpaper_empty or talk.fullpaper_pending %}
+		    		<li><a href="{% url 'talk_submit_fullpaper' talk.pk %}">{% trans 'Submit Full Paper' %}</a></li>
 		    	{% endif %}
 		    	{% endif %}
 			  </ul>

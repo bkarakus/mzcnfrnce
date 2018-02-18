@@ -100,8 +100,8 @@ class AuthorInline(TabularDynamicInlineAdmin):
     extra = 3
 
 class TalkAdmin(ExportMixin, admin.ModelAdmin):
-    list_display = ('title', 'talk_type', 'talk_subject', 'presenter', 'talk_actions',)
-    list_filter = ('talk_type', 'talk_subject', 'status', 'aippaper_status',)
+    list_display = ('title', 'talk_type', 'talk_subject', 'presenter', 'status', 'fullpaper_status', 'talk_actions',)
+    list_filter = ('talk_type', 'talk_subject', 'status', 'fullpaper_status',)
     search_fields = ('title', )
     readonly_fields = ('notes',)
     inlines = [AuthorInline, ]
@@ -123,7 +123,7 @@ class TalkAdmin(ExportMixin, admin.ModelAdmin):
     def get_urls(self):
         from django.conf.urls import patterns
         return patterns('',
-            (r'^(?P<object_id>\d+)/(?P<paper_type>short-abstract|aippaper)/(?P<status>accept|reject)/$', self.admin_site.admin_view(self.accept_or_reject)),
+            (r'^(?P<object_id>\d+)/(?P<paper_type>short-abstract|fullpaper)/(?P<status>accept|reject)/$', self.admin_site.admin_view(self.accept_or_reject)),
         ) + super(TalkAdmin, self).get_urls()
     
     def talk_actions(self, obj):
@@ -141,16 +141,16 @@ class TalkAdmin(ExportMixin, admin.ModelAdmin):
                 <option value="{{ obj.pk }}/short-abstract/reject/">{% trans 'Reject' %} ...</option>
                 {% endif %}
             </optgroup>
-            <optgroup label="{% trans 'AIP Paper' %}">
-                {% if obj.aippaper %}
-                <option value="{{ obj.aippaper.url }}">View ZIP File</option>
+            <optgroup label="{% trans 'Full Paper' %}">
+                {% if obj.fullpaper %}
+                <option value="{{ obj.fullpaper.url }}">View Full Paper File</option>
                 {% endif %}
-                {% if obj.aippaper_pdf %}
-                <option value="{{ obj.aippaper_pdf.url }}">View PDF File</option>
+                {% if obj.fullpaper_pdf %}
+                <option value="{{ obj.fullpaper_pdf.url }}">View PDF File</option>
                 {% endif %}
-                {% if obj.aippaper_pending %}
-                <option value="{{ obj.pk }}/aippaper/accept/">{% trans 'Accept' %} ...</option>
-                <option value="{{ obj.pk }}/aippaper/reject/">{% trans 'Reject' %} ...</option>
+                {% if obj.fullpaper_pending %}
+                <option value="{{ obj.pk }}/fullpaper/accept/">{% trans 'Accept' %} ...</option>
+                <option value="{{ obj.pk }}/fullpaper/reject/">{% trans 'Reject' %} ...</option>
                 {% endif %}
             </optgroup>
         </select>
@@ -184,7 +184,7 @@ class TalkAdmin(ExportMixin, admin.ModelAdmin):
             if paper_type == 'short-abstract':
                 email_send = obj.abstract_accept_or_reject(status)
             else:
-                email_send = obj.aippaper_accept_or_reject(status)
+                email_send = obj.fullpaper_accept_or_reject(status)
                 
             if email_send:
                 self.message_user(request, _(u"Accept/Reject email has been sent."), messages.SUCCESS)

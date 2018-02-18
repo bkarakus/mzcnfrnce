@@ -15,7 +15,7 @@ def get_abstracts_path(instance, filename):
     upload_to = os.path.join(get_directory(), "abstracts", filename)
     return upload_to
 
-def get_aippapers_path(instance, filename):
+def get_fullpapers_path(instance, filename):
     filename = slugify_filename(filename)
-    upload_to = os.path.join(get_directory(), "aippapers", filename)
+    upload_to = os.path.join(get_directory(), "fullpapers", filename)
     return upload_to

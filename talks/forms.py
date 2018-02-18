@@ -52,7 +52,7 @@ class TalkForm(forms.ModelForm):
         ),
                            
         Div(
-            Div('aippaper', css_class='col-md-12'),
+            Div('fullpaper', css_class='col-md-12'),
             css_class='row'
         ),
     )
@@ -60,10 +60,10 @@ class TalkForm(forms.ModelForm):
         model = Talk
         fields = ('title', 'talk_type', 'talk_subject', 'abstract')
         
-class AIPPaperForm(forms.ModelForm):
+class FullPaperForm(forms.ModelForm):
     class Meta:
         model = Talk
-        fields = ('aippaper', )
+        fields = ('fullpaper', )
         
 AuthorFormSet = inlineformset_factory(Talk, Author,
                                             form=AuthorForm, extra=3, max_num=7)

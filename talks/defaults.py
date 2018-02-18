@@ -16,8 +16,8 @@ register_setting(
 )
 
 register_setting(
-    name="TALKS_AIPPAPER_SUBMIT_OPEN",
-    label=_("Talks AIP Paper Submit Open"),
+    name="TALKS_FULLPAPER_SUBMIT_OPEN",
+    label=_("Talks Full Paper Submit Open"),
     description=_("true by default."),
     editable=True,
     default=True,
