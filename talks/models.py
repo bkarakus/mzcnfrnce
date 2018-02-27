@@ -100,8 +100,8 @@ class Talk(SiteRelated, Ownable):
         (EMPTY, 'Not Submitted')
     )
     
-    talk_type = models.ForeignKey(TalkType, null=True)
-    talk_subject = models.ForeignKey(TalkSubject, null=True)
+    talk_type = models.ForeignKey(TalkType, null=True, verbose_name="Type")
+    talk_subject = models.ForeignKey(TalkSubject, null=True, verbose_name="Subject")
 
     title = models.CharField(max_length=1024)
 
