@@ -533,7 +533,7 @@ float the buttons inside it. This prevents collapsing. */
     display: block;
   }
 }
-.tree {display:none;}
+.tree {display:block;}
 @media (min-width: 992px) {
   .tree {display:block;}
 }
