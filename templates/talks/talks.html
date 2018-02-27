@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{% trans 'Talks' %}{% endblock %}
+{% block title %}{% trans 'Abstracts' %}{% endblock %}
 {% block main %}
 <div style="margin-bottom:10px;">
 	<span class="label label-info">{% trans 'Under Consideration' %}</span>
@@ -46,7 +46,7 @@
     	</td>
     </tr>
     {% empty %}
-    <p>No talks accepted yet.</p>
+    <p>No abstracts accepted yet.</p>
     {% endfor %}
     </tbody>
 </table>

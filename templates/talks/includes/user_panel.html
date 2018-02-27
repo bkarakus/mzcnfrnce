@@ -3,8 +3,8 @@
 {% if request.user.is_authenticated %}
 <p>
 	<a href="{% url "talk_submit" %}" class="btn btn-default btn-sm btn-account">
-	    <span class="glyphicon glyphicon-edit"></span> {% trans "Submit a Talk" %}</a>
+	    <span class="glyphicon glyphicon-edit"></span> {% trans "Submit a Abstract" %}</a>
 	<a href="{% url "users_talks" %}" class="btn btn-default btn-sm btn-account">
-	    <span class="glyphicon glyphicon-edit"></span> {% trans "Talks" %}</a>
+	    <span class="glyphicon glyphicon-edit"></span> {% trans "Abstracts" %}</a>
 </p>
 {% endif %}
