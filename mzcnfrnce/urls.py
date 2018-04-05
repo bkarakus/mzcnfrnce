@@ -16,12 +16,13 @@ admin.autodiscover()
 # You can also change the ``home`` view to add your own functionality
 # to the project's homepage.
 
-urlpatterns = i18n_patterns("",
+urlpatterns = patterns("",
     # Change the admin prefix here to use an alternate URL for the
     # admin interface, which would be marginally more secure.
     ("^admin/", include(admin.site.urls)),
     url(r'^admin/send-email/$', send_mail, name='send_mail'),
     url("^talks/", include('talks.urls')),
+    url("^robot\.txt$", direct_to_template, {"template": "robot.txt"}, name="robot-txt"),
 )
 
 if settings.USE_MODELTRANSLATION:
