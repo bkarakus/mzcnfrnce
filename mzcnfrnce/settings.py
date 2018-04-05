@@ -119,6 +119,8 @@ LANGUAGES = (
 # production. Best set to ``True`` in local_settings.py
 DEBUG = False
 
+APPEND_SLASH = False
+
 # Whether a user's session cookie expires when the Web browser is closed.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
