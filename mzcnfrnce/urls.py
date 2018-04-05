@@ -22,7 +22,7 @@ urlpatterns = patterns("",
     ("^admin/", include(admin.site.urls)),
     url(r'^admin/send-email/$', send_mail, name='send_mail'),
     url("^talks/", include('talks.urls')),
-    url("^robot\.txt$", direct_to_template, {"template": "robot.txt"}, name="robot-txt"),
+    url("^robots\.txt$", direct_to_template, {"template": "robots.txt"}, name="robot-txt"),
 )
 
 if settings.USE_MODELTRANSLATION:
